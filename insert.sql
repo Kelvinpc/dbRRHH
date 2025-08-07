@@ -1,4 +1,5 @@
 
+-- Registro de Departamentos--
 
 INSERT INTO departamentos (departemento) VALUES
 ('Amazonas'),
@@ -28,6 +29,7 @@ INSERT INTO departamentos (departemento) VALUES
 ('Ucayali');
 
 
+-- Registro de Provincias--
 
 INSERT INTO provincias (provincia, iddepartamento)
 VALUES 
@@ -63,6 +65,7 @@ VALUES
 ('Juliaca', 10),
 ('Azángaro', 10);
 
+-- Registro de Distritos--
 
 
 INSERT INTO distritos (distrito, idprovincia) VALUES
@@ -93,11 +96,14 @@ INSERT INTO distritos (distrito, idprovincia) VALUES
 ('Paracas', 28);
 
 
+-- Registro de Sucursales--
+
 
 INSERT INTO sucursales (sucursal, direccion, referencia, iddistrito)
 VALUES ('Yonda Perú', 'Panamericana Sur Km 199, puerta 201', 'Frente a grifo Primax', 20);
 
 
+-- Registro de Areas--
 
 INSERT INTO areas (area, idsucursal) VALUES
 ('Recursos Humanos', 1),
@@ -114,6 +120,9 @@ INSERT INTO areas (area, idsucursal) VALUES
 ('Calidad', 1),
 ('Producción', 1),
 ('Legal', 1);
+
+
+-- Registro de Cargos--
 
 
 INSERT INTO cargos (cargo, idarea) VALUES
@@ -164,6 +173,7 @@ INSERT INTO cargos (cargo, idarea) VALUES
 
 
 
+-- Registro de Personas--
 
 INSERT INTO personas (
     apepaterno,apematerno, nombres, fechanac, genero, tipodoc, numdoc,
@@ -181,6 +191,7 @@ INSERT INTO personas (
 
 
 
+-- Registro de Contratos--
 
 INSERT INTO contratos (
     fechainicio, fechafin, sueldobase, toleranciadiaria, toleranciamensual,
@@ -197,6 +208,7 @@ INSERT INTO contratos (
  3, 3);
 
 
+-- Registro de Horarios--
 
  INSERT INTO horarios (dia, entrada, iniciorefrigerio, finrefrigerio, salida, idcontrato)
 VALUES ('L', '08:00:00', '12:00:00', '13:30:00', '18:00:00', 1);
@@ -222,6 +234,9 @@ INSERT INTO horarios (dia, entrada, iniciorefrigerio, finrefrigerio, salida, idc
 VALUES ('V', '08:00:00', '13:00:00', '14:30:00', '18:00:00', 2);
 INSERT INTO horarios (dia, entrada, iniciorefrigerio, finrefrigerio, salida, idcontrato)
 VALUES ('S', '08:00:00', 'NULL', 'NULL', '13:00:00', 2);
+
+
+-- Registro de Asistencias--
 
 
 INSERT INTO asistencias (
@@ -269,6 +284,7 @@ INSERT INTO asistencias (
 ('2025-07-26', '08:10:00', NULL, NULL, '13:03:00', 10, "regular", 11);
 
 
+-- Registro de Usuarios--
 
 INSERT INTO usuarios (nombreusuario, claveacceso, idcontrato
 ) VALUES
@@ -278,6 +294,8 @@ INSERT INTO usuarios (nombreusuario, claveacceso, idcontrato
 ('kpipa', '123456', 2),
 -- Usuario: Erick Jhampier Perez Saravia
 ('eperez', '123456', 3);
+
+-- Registro de Feriados--
 
 -- Feriados en Perú - Año 2025
 INSERT INTO feriados (aniocurso, mes, dia, nombreferiado) VALUES
@@ -294,6 +312,7 @@ INSERT INTO feriados (aniocurso, mes, dia, nombreferiado) VALUES
 (2025, 12, 8,  'Inmaculada Concepción'),
 (2025, 12, 25, 'Navidad');
 
+-- Registro de sistemapensiones--
 
 -- ONP
 INSERT INTO sistemapensiones (
@@ -314,3 +333,53 @@ INSERT INTO sistemapensiones (
     10, 1.74, 1.35, 13,
     '2000-01-01 00:00:00', '2099-12-31 23:59:59'
 );
+
+-- AFP Integra
+INSERT INTO sistemapensiones (
+    sistpensiones, nombre, pctjaportetrabajor, pctjcomision, pctjseguro, pctjaporteempleador, 
+    fechainicio, fechafin
+) VALUES (
+    'AFP', 'Integra AFP', 
+    10, 1.69, 1.35, 13,
+    '2000-01-01 00:00:00', '2099-12-31 23:59:59'
+);
+
+
+-- Registro de historialsistepensiones--
+
+INSERT INTO historialsistepensiones (
+    fechainicio, fechafin, idpersona, idsistepension
+) VALUES 
+('2024-01-01', '2099-12-31', 1, 3), -- GIAN FRANCO → AFP Integra
+('2024-01-01', '2099-12-31', 2, 1), -- KELVIN → ONP
+('2024-01-01', '2099-12-31', 3, 2); -- ERICK → AFP Prima
+
+
+-- Registro de Planillas--
+
+INSERT INTO planillas (
+    anio, mes, diaslaborados, horasextras, pctjhextras,
+    tardanzas, faltas, sueldobasico, vacacionestruncas,
+    pctjdsctpension, dsctpension, comisionafp, seguroafp,
+    otrosdescuentos, bonificaciones, aporteempleador, totalneto,
+    estado, idcontrato, idtipolicencia, idcargafami, idtipopermiso
+)
+VALUES
+-- GIAN FRANCO
+(2024, 7, 26, 4, 25,
+ 1, 0, 1400.00, NULL,
+ 10.00, 140.00, 24.36, 18.90,
+ 0.00, 100.00, 182.00, 1316.74,
+ TRUE, 1, NULL, NULL, NULL),
+-- KELVIN (ONP - solo dsctpension 13%, sin comisiones ni seguro)
+(2024, 7, 25, 2, 25,
+ 0, 1, 1400.00, NULL,
+ 13.00, 182.00, 0.00, 0.00,
+ 10.00, 50.00, 182.00, 1258.00,
+ TRUE, 2, NULL, NULL, NULL),
+-- ERICK
+(2024, 7, 27, 0, 25,
+ 0, 0, 1400.00, NULL,
+ 10.00, 140.00, 24.36, 18.90,
+ 5.00, 150.00, 182.00, 1301.74,
+ TRUE, 3, NULL, NULL, NULL);
